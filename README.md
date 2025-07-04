@@ -1,4 +1,4 @@
-# 🟩 Terminal Tetris Game in Python 🎮
+# Tetris Game in Python 🎮
 
 A classic **Tetris game** built with Python that runs directly in GUI. 
 Inspired by the aesthetic from the *Tetris movie*.
@@ -6,8 +6,6 @@ Inspired by the aesthetic from the *Tetris movie*.
 ---
 
 ## 📦 Features
-
-- ⬜ Terminal-based interface (no GUI/pygame)
 - 🎮 Arrow-key controls for gameplay
 - 🧱 Tetris pieces (`I`, `O`, `T`, `S`, `Z`, `J`, `L`) with rotation
 - 💥 Line clearing with scoring system
