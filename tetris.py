@@ -172,7 +172,7 @@ def main():
     print("\n")
     print(Style.BRIGHT + Fore.GREEN + f"Game Over. Final Score: {score}")
     print("\n")
-    restart = input("restart (yes/no)")
+    restart = input("restart (yes/no): ")
     if restart == "yes":
        print("\n")
        os.system(f"python {sys.argv[0]}")
