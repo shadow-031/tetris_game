@@ -1,7 +1,9 @@
 import pygame
 import random
-import sys, os
+import sys
+import os
 from colorama import Fore, Style
+import json
 
 # Constants
 WIDTH, HEIGHT = 300, 600
@@ -12,24 +14,19 @@ BLOCK_SIZE = WIDTH // COLS
 BLACK = (0, 0, 0)
 GRAY = (100, 100, 100)
 COLORS = [
-    (0, 255, 255),   # I
-    (0, 0, 255),     # J
-    (255, 165, 0),   # L
-    (255, 255, 0),   # O
-    (0, 255, 0),     # S
-    (128, 0, 128),   # T
-    (255, 0, 0)      # Z
+    (0, 255, 255), (0, 0, 255), (255, 165, 0),
+    (255, 255, 0), (0, 255, 0), (128, 0, 128), (255, 0, 0)
 ]
 
 # Tetromino Shapes
 SHAPES = [
-    [[1, 1, 1, 1]],                      # I
-    [[1, 0, 0], [1, 1, 1]],              # J
-    [[0, 0, 1], [1, 1, 1]],              # L
-    [[1, 1], [1, 1]],                    # O
-    [[0, 1, 1], [1, 1, 0]],              # S
-    [[0, 1, 0], [1, 1, 1]],              # T
-    [[1, 1, 0], [0, 1, 1]]               # Z
+    [[1, 1, 1, 1]],
+    [[1, 0, 0], [1, 1, 1]],
+    [[0, 0, 1], [1, 1, 1]],
+    [[1, 1], [1, 1]],
+    [[0, 1, 1], [1, 1, 0]],
+    [[0, 1, 0], [1, 1, 1]],
+    [[1, 1, 0], [0, 1, 1]]
 ]
 
 class Piece:
@@ -66,10 +63,7 @@ def check_lines(grid, locked):
         if BLACK not in grid[y]:
             cleared += 1
             for x in range(COLS):
-                try:
-                    del locked[(x, y)]
-                except:
-                    continue
+                locked.pop((x, y), None)
             for key in sorted(list(locked), key=lambda k: k[1])[::-1]:
                 x, y2 = key
                 if y2 < y:
@@ -92,6 +86,17 @@ def draw_window(win, grid, score):
     label = font.render(f"Score: {score}", 1, (255,255,255))
     win.blit(label, (10, 10))
     pygame.display.update()
+
+def load_saved_score():
+    if os.path.exists("score.json"):
+        with open("score.json", "r") as file:
+            data = json.load(file)
+            return data.get("score", 0)
+    return 0
+
+def save_high_score(score):
+    with open("score.json", "w") as file:
+        json.dump({"score": score}, file, indent=4)
 
 def main():
     pygame.init()
@@ -169,15 +174,24 @@ def main():
             run = False
 
     pygame.quit()
-    print("\n")
-    print(Style.BRIGHT + Fore.GREEN + f"Game Over. Final Score: {score}")
-    print("\n")
-    restart = input("restart (yes/no): ")
+
+    print("\n" + Style.BRIGHT + Fore.GREEN + f"Game Over. Final Score: {score}\n")
+
+    # Load saved score and compare
+    saved_score = load_saved_score()
+    if score > saved_score:
+        print(Fore.YELLOW + "🎉 New High Score!")
+        save_high_score(score)
+    else:
+        print(Fore.CYAN + f"Highest Score: {saved_score}")
+
+    # Ask to restart
+    restart = input(Fore.MAGENTA + "Restart? (yes/no): ").strip().lower()
     if restart == "yes":
-       print("\n")
-       os.system(f"python {sys.argv[0]}")
-    if restart == "no":
-       pygame.quit()
+        os.system(f"python {sys.argv[0]}")
+    else:
+        print(Fore.WHITE + "Thanks for playing!")
+
 
 if __name__ == "__main__":
     main()
