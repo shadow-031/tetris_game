@@ -26,7 +26,7 @@ Inspired by the aesthetic from the *Tetris movie*.
 ---
 
 # Run the Game
-
+- python tetris.py
 # Requirements
 - Python 3.6+
 - Unix-based terminal (Linux/macOS) or Windows with compatible GUI (e.g., WSL, Git Bash)
