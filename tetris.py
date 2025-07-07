@@ -180,13 +180,13 @@ def main():
     # Load saved score and compare
     saved_score = load_saved_score()
     if score > saved_score:
-        print(Fore.YELLOW + "🎉 New High Score!")
+        print(Fore.YELLOW + "New High Score!")
         save_high_score(score)
     else:
         print(Fore.CYAN + f"Highest Score: {saved_score}")
 
     # Ask to restart
-    restart = input(Fore.MAGENTA + "Restart? (yes/no): ").strip().lower()
+    restart = input(Fore.CYAN + "Restart? (yes/no): ").strip().lower()
     if restart == "yes":
         os.system(f"python {sys.argv[0]}")
     else:
