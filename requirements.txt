@@ -1,0 +1,6 @@
+pygame==2.5.2
+colorama==0.4.6
+random
+sys
+os
+json
